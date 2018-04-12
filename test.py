@@ -24,8 +24,8 @@ def detect(net,img):
     olist = net(img)
 
     bboxlist = []
-    for i in range(len(olist)/2): olist[i*2] = F.softmax(olist[i*2])
-    for i in range(len(olist)/2):
+    for i in range(int(len(olist)/2)): olist[i*2] = F.softmax(olist[i*2])
+    for i in range(int(len(olist)/2)):
         ocls,oreg = olist[i*2].data.cpu(),olist[i*2+1].data.cpu()
         FB,FC,FH,FW = ocls.size() # feature map size
         stride = 2**(i+2)    # 4,8,16,32,64,128
@@ -76,7 +76,7 @@ while(True):
         x1,y1,x2,y2,s = b
         if s<0.5: continue
         cv2.rectangle(imgshow,(int(x1),int(y1)),(int(x2),int(y2)),(0,255,0),1)
-    cv2.imshow('test',imgshow)
+    #cv2.imshow('test',imgshow)
 
     if args.path=='CAMERA':
         if cv2.waitKey(1) & 0xFF == ord('q'): break
